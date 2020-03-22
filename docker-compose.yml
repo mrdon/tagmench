@@ -1,0 +1,42 @@
+version: '3.7'  # Requires docker 18.06.0 or greater
+services:
+
+  web:
+    image: tagmench-dev
+    ports:
+      - '8080:8080'
+    restart: always
+    command: sh
+    tty: true
+    stdin_open: true
+    env_file: .env
+    environment:
+      - BASE_URL=http://localhost:8080
+      - DB_HOST=db
+      - DB_DATABASE=postgres
+      - DB_PASSWORD=postgres
+      - DB_USER=postgres
+      - DB_PORT=5432
+      - DB_SSL=disable
+      - ENV=development
+      - REDIS_URL=redis://redis:6379
+      - SLACK_URL=http://slack-fake:8080
+    links:
+      - db
+      - redis
+    volumes:
+      - ./src:/app
+      - ./bin:/app/bin
+      - ./src/alembic/env.py:/alembic/env.py
+      - ./src/alembic/versions:/alembic/versions
+
+  redis:
+    image: redis:5
+
+  db:
+    image: postgres:11.2
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "54320:5432"
+

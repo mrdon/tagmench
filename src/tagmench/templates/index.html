@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}Messages{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+          div.row:nth-child(even) {background: #EEE}
+         div.row:nth-child(odd) {background: #FFF}
+         div.row {
+            padding: 10px;
+         }
+      </style>
+      {% raw %}
+      <script id="badge-template" type="text/x-handlebars-template">
+          <span class="badge badge-info badge-tag">{{this}}</span>
+      </script>
+      <script id="tag-template" type="text/x-handlebars-template">
+          <button type="button" class="btn btn-primary btn-tag">{{this}}</button>
+      </script>
+      <script id="message-template" type="text/x-handlebars-template">
+            <div class="col-4">
+                <div class="username">
+                    {{author.username}}
+                </div>
+                <div class="author-tags">
+                    {{#each author.tags}}
+                        {{> badge }}
+                    {{/each}}
+                </div>
+            </div>
+            <div class="col-8">
+                {{#each tags}}
+                    {{> tag }}
+                {{/each}}
+            </div>
+    </script>
+    {% endraw %}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid" id="messages">
+        <div class="row">
+            As people chat in the room, tags will be suggested for the authors.
+            {% if is_guest %}
+            You need to be an authenticated user (i.e. not guest) to click the tags.
+            {% else %}
+            Click on a tag to associate them with the person.
+            {% endif %}
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='broadcast.js') }}"></script>
+    <script type="text/javascript">
+        var is_guest = {{ 'true' if is_guest else 'false' }};
+    </script>
+{% endblock %}
