@@ -8,17 +8,54 @@ document.addEventListener('DOMContentLoaded', function() {
     var messageTemplate = Handlebars.compile($('#message-template').html());
 
     var messages_dom = document.getElementById('messages');
-    es.onmessage = function (event) {
 
-        var data = JSON.parse(event.data)
-        var message_dom = document.createElement('div');
-        message_dom.setAttribute('class', 'row');
-        message_dom.innerHTML = messageTemplate(data)
-        messages_dom.appendChild(message_dom);
-        if (is_guest) {
-            $('button', $(message_dom)).attr("disabled", "disabled");
+    function init() {
+        es = new EventSource('/sse');
+        es.onmessage = function (event) {
+
+            var data = JSON.parse(event.data);
+            var message_dom = document.createElement('div');
+            message_dom.setAttribute('class', 'row');
+            message_dom.innerHTML = messageTemplate(data)
+            messages_dom.appendChild(message_dom);
+            if (is_guest) {
+                $('button', $(message_dom)).attr("disabled", "disabled");
+            }
+        };
+
+        var evtSourceErrorHandler = function(event){
+            var txt;
+            switch( event.target.readyState ){
+                case EventSource.CONNECTING:
+                    txt = 'Reconnecting...';
+                    break;
+                case EventSource.CLOSED:
+                    txt = 'Reinitializing...';
+                    es = init();
+                    break;
+            }
+            console.log(txt);
+        };
+        es.onerror = evtSourceErrorHandler;
+        return es
+    }
+
+
+    var evtSourceErrorHandler = function(event){
+        var txt;
+        switch( event.target.readyState ){
+            case EventSource.CONNECTING:
+                txt = 'Reconnecting...';
+                break;
+            case EventSource.CLOSED:
+                txt = 'Reinitializing...';
+                es = new EventSource("../sse.php");
+                es.onerror = evtSourceErrorHandler;
+                break;
         }
+        console.log(txt);
     };
+
 
     if (is_guest) {
      return
