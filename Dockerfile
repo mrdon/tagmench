@@ -22,6 +22,7 @@ COPY src/alembic.ini /
 COPY src/alembic /alembic
 COPY src /app
 COPY src/dokku/CHECKS /app/CHECKS
+COPY src/dokku/nginx.conf.sigil /app/nginx.conf.sigil
 COPY Procfile /app
 COPY bin /app/bin
 
