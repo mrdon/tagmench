@@ -8,7 +8,7 @@ from typing import Optional, List, Dict
 import json
 
 from quart import Quart, request, make_response, render_template, url_for, redirect
-from quart.exceptions import Unauthorized
+from quart.exceptions import Unauthorized, NotFound
 from quart_auth import AuthManager, login_required, logout_user, login_user, AuthUser, current_user
 
 from tagmench import tags, db
@@ -50,6 +50,11 @@ async def start_bot():
 @app.errorhandler(Unauthorized)
 async def handle_authorized(e):
     return redirect(url_for('login'))
+
+
+@app.errorhandler(NotFound)
+async def handle_notfound(e):
+    return "", 404
 
 
 @app.errorhandler(Exception)

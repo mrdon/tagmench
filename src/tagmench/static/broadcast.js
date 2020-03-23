@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var es = new EventSource('/sse');
-
     var tagTemplate = Handlebars.compile($('#tag-template').html());
     Handlebars.registerPartial("tag", tagTemplate);
     var badgeTemplate = Handlebars.compile($('#badge-template').html());
@@ -9,53 +7,72 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var messages_dom = document.getElementById('messages');
 
-    function init() {
-        es = new EventSource('/sse');
-        es.onmessage = function (event) {
-
-            var data = JSON.parse(event.data);
-            var message_dom = document.createElement('div');
-            message_dom.setAttribute('class', 'row');
-            message_dom.innerHTML = messageTemplate(data)
-            messages_dom.appendChild(message_dom);
-            if (is_guest) {
-                $('button', $(message_dom)).attr("disabled", "disabled");
-            }
-        };
-
-        var evtSourceErrorHandler = function(event){
-            var txt;
-            switch( event.target.readyState ){
-                case EventSource.CONNECTING:
-                    txt = 'Reconnecting...';
-                    break;
-                case EventSource.CLOSED:
-                    txt = 'Reinitializing...';
-                    es = init();
-                    break;
-            }
-            console.log(txt);
-        };
-        es.onerror = evtSourceErrorHandler;
-        return es
+    function onMessage(event) {
+        var data = JSON.parse(event.data);
+        var message_dom = document.createElement('div');
+        message_dom.setAttribute('class', 'row');
+        message_dom.innerHTML = messageTemplate(data);
+        messages_dom.appendChild(message_dom);
+        if (is_guest) {
+            $('button', $(message_dom)).attr("disabled", "disabled");
+        }
     }
 
+    function isFunction(functionToCheck) {
+      return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+    }
 
-    var evtSourceErrorHandler = function(event){
-        var txt;
-        switch( event.target.readyState ){
-            case EventSource.CONNECTING:
-                txt = 'Reconnecting...';
-                break;
-            case EventSource.CLOSED:
-                txt = 'Reinitializing...';
-                es = new EventSource("../sse.php");
-                es.onerror = evtSourceErrorHandler;
-                break;
+    function debounce(func, wait) {
+        var timeout;
+        var waitFunc;
+
+        return function() {
+            if (isFunction(wait)) {
+                waitFunc = wait;
+            }
+            else {
+                waitFunc = function() { return wait };
+            }
+
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                func.apply(context, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, waitFunc());
+        };
+    }
+
+    // reconnectFrequencySeconds doubles every retry
+    var reconnectFrequencySeconds = 1;
+    var evtSource;
+
+    var reconnectFunc = debounce(function() {
+        setupEventSource();
+        // Double every attempt to avoid overwhelming server
+        reconnectFrequencySeconds *= 2;
+        // Max out at ~1 minute as a compromise between user experience and server load
+        if (reconnectFrequencySeconds >= 64) {
+            reconnectFrequencySeconds = 64;
         }
-        console.log(txt);
-    };
+    }, function() { return reconnectFrequencySeconds * 1000 });
 
+    function setupEventSource() {
+        evtSource = new EventSource("/sse");
+        evtSource.onmessage = function(e) {
+          onMessage(e);
+        };
+        evtSource.onopen = function(e) {
+          // Reset reconnect frequency upon successful connection
+          reconnectFrequencySeconds = 1;
+        };
+        evtSource.onerror = function(e) {
+          evtSource.close();
+          reconnectFunc();
+        };
+    }
+    setupEventSource();
 
     if (is_guest) {
      return
