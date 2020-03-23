@@ -107,7 +107,7 @@ async def login():
 
 @app.route('/health', methods=['GET'])
 async def health():
-    return "OK", 200
+    return "UP", 200
 
 
 @app.route("/login", methods=['POST'])
