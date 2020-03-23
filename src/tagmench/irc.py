@@ -43,7 +43,7 @@ class Bot(commands.Bot):
         maybe_tag = set()
         for phrase in parsed.noun_phrases:
             maybe_tag.add(phrase)
-        for part in [tagged for tagged in parsed.tags if tagged[1] in ("NNS", "NN")]:
+        for part in [tagged for tagged in parsed.tags if tagged[1] in ("NNS", "NN", "NNP", "NNPS")]:
             maybe_tag.add(part[0])
 
         log.info(f"Tags: {maybe_tag}")

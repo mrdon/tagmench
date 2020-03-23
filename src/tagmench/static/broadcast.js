@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var message_dom = document.createElement('div');
         message_dom.setAttribute('class', 'row');
         message_dom.innerHTML = messageTemplate(data);
-        messages_dom.appendChild(message_dom);
+        messages_dom.prepend(message_dom);
         if (is_guest) {
             $('button', $(message_dom)).attr("disabled", "disabled");
         }

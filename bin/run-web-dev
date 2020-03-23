@@ -12,8 +12,8 @@ import format_logs
 config = Config.from_pyfile('/app/hypercorn_config.py')
 config.application_path = "tagmench.web:app"
 
-if sys.gettrace() is None:
-    config.use_reloader = True
+# if sys.gettrace() is None:
+config.use_reloader = False
 
 with format_logs.redirected_stdout():
     sys.exit(run(config))
