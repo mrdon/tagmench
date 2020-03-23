@@ -22,7 +22,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "not-so-secret")
 
 AuthManager(app)
 app.config["QUART_AUTH_COOKIE_SECURE"] = False
-app.config["DB_DNS"] = os.environ.get("DATABASE_URL", "")
+app.config["DB_DSN"] = os.environ.get("DATABASE_URL", "")
 app.config["DB_HOST"] = os.environ.get("DB_HOST", "localhost")
 app.config["DB_PORT"] = os.environ.get("DB_PORT", 5432)
 app.config["DB_DATABASE"] = os.environ.get("DB_DATABASE", "tagmench")
