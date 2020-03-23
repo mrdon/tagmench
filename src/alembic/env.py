@@ -20,10 +20,10 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
-import site
-site.addsitedir('/app')
-from tagmench.model import Base
-target_metadata = Base.metadata
+# import site
+# site.addsitedir('/app')
+# from tagmench.model import Base
+# target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
