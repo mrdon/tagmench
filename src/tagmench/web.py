@@ -52,7 +52,7 @@ async def handle_authorized(e):
     return redirect(url_for('login'))
 
 
-@app.errorhandler(Unauthorized)
+@app.errorhandler(Exception)
 async def handle_any(e):
     log.exception(f"Unexpected exception: {e}")
     return str(e), 500
