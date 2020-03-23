@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
         message_dom.setAttribute('class', 'row');
         message_dom.innerHTML = messageTemplate(data);
         messages_dom.prepend(message_dom);
+        $(messages).children().find("div:gt(10)").remove();
+        if (messages_dom.childNodes)
         if (is_guest) {
             $('button', $(message_dom)).attr("disabled", "disabled");
         }
