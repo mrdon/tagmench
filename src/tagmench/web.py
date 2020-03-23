@@ -22,6 +22,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "not-so-secret")
 
 AuthManager(app)
 app.config["QUART_AUTH_COOKIE_SECURE"] = False
+app.config["DB_DNS"] = os.environ.get("DATABASE_URL", "")
 app.config["DB_HOST"] = os.environ.get("DB_HOST", "localhost")
 app.config["DB_PORT"] = os.environ.get("DB_PORT", 5432)
 app.config["DB_DATABASE"] = os.environ.get("DB_DATABASE", "tagmench")
@@ -118,7 +119,7 @@ async def login_post():
         return redirect(url_for('index'))
 
     if form.validate_on_submit():
-        if form["password"].data == "happytogether":
+        if form["password"].data == os.getenv("MAIN_PASSWORD", "happytogether"):
             log.info("Logging in as a user")
             login_user(AuthUser("1"))
             return redirect(url_for('index'))
