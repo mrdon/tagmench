@@ -1,4 +1,3 @@
-import logging
 import logging.config
 import sys
 from datetime import datetime

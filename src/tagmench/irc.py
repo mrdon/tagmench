@@ -3,11 +3,11 @@ import logging
 import os
 
 from sqlalchemy.engine.url import URL
+from tagmench import db
+from tagmench import web
 from textblob import TextBlob
 from twitchio import Message
 from twitchio.ext import commands
-
-from tagmench import web, db
 
 log = logging.getLogger(__name__)
 

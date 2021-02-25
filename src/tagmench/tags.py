@@ -1,7 +1,6 @@
 from typing import List
 
 from sqlalchemy import and_
-
 from tagmench.model import Tag
 
 

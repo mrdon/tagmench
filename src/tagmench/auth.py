@@ -1,10 +1,14 @@
 from functools import wraps
-from typing import Callable, Any
+from typing import Any
+from typing import Callable
 
 from flask_wtf import FlaskForm
 from quart.exceptions import Unauthorized
-from quart_auth import current_user, logout_user
-from wtforms import StringField, PasswordField, BooleanField
+from quart_auth import current_user
+from quart_auth import logout_user
+from wtforms import BooleanField
+from wtforms import PasswordField
+from wtforms import StringField
 from wtforms.validators import DataRequired
 
 

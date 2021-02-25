@@ -2,9 +2,11 @@ import logging
 import os
 from typing import Any
 
-# import datadog
 from hypercorn.config import SECONDS
-from hypercorn.logging import AccessLogAtoms, Logger
+from hypercorn.logging import AccessLogAtoms
+from hypercorn.logging import Logger
+
+# import datadog
 
 env = os.getenv("ENV", "production")
 

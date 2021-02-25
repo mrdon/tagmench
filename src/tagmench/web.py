@@ -1,25 +1,32 @@
 # noinspection PyUnresolvedReferences
-import quart.flask_patch
 import asyncio
+import json
 import logging
 import os
 from collections import defaultdict
-from typing import Optional, List, Dict
-import json
+from typing import Dict
+from typing import List
+from typing import Optional
 
-from quart import Quart, request, make_response, render_template, url_for, redirect
-from quart.exceptions import Unauthorized, NotFound
-from quart_auth import (
-    AuthManager,
-    login_required,
-    logout_user,
-    login_user,
-    AuthUser,
-    current_user,
-)
-
-from tagmench import tags, db
-from tagmench.auth import user_required, LoginForm
+import quart.flask_patch
+from quart import make_response
+from quart import Quart
+from quart import redirect
+from quart import render_template
+from quart import request
+from quart import url_for
+from quart.exceptions import NotFound
+from quart.exceptions import Unauthorized
+from quart_auth import AuthManager
+from quart_auth import AuthUser
+from quart_auth import current_user
+from quart_auth import login_required
+from quart_auth import login_user
+from quart_auth import logout_user
+from tagmench import db
+from tagmench import tags
+from tagmench.auth import LoginForm
+from tagmench.auth import user_required
 from tagmench.logging import init_logging
 
 init_logging()

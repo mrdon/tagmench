@@ -1,11 +1,11 @@
+import os
 from logging.config import fileConfig
-from urllib.parse import urlparse, urlunparse
-
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from urllib.parse import urlparse
+from urllib.parse import urlunparse
 
 from alembic import context
-import os
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

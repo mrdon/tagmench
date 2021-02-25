@@ -10,6 +10,7 @@ help:
 venv: ## Create python venv
 	python3.8 -m venv venv
 	venv/bin/pip install pip-tools
+	venv/bin/pip-compile
 	venv/bin/pip install -r requirements.txt
 	
 db: ## Logs into psql
@@ -17,6 +18,9 @@ db: ## Logs into psql
 
 format: ## Format the code
 	venv/bin/black src
+	venv/bin/reorder-python-imports --py38-plus `find src -name "*.py"` || venv/bin/black src --target-version py38
+
+
 
 db-makemigrations: ## Creates a migration
 	docker-compose run --no-deps web sh -c 'cd / && /alembic/venv/bin/alembic revision --autogenerate -m "replace me"'

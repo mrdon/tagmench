@@ -1,9 +1,12 @@
 import asyncio
 
-from gino.api import Gino as _Gino, GinoExecutor as _Executor
-from gino.engine import GinoConnection as _Connection, GinoEngine as _Engine
+from gino.api import Gino as _Gino
+from gino.api import GinoExecutor as _Executor
+from gino.engine import GinoConnection as _Connection
+from gino.engine import GinoEngine as _Engine
 from gino.strategies import GinoStrategy
-from quart import Quart, request
+from quart import Quart
+from quart import request
 from quart.exceptions import NotFound
 from sqlalchemy.engine.url import URL
 
