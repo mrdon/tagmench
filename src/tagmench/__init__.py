@@ -1,3 +1,3 @@
-from gino.ext.quart import Gino
+from gino_quart import Gino
 
 db = Gino()

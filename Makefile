@@ -1,4 +1,4 @@
-.PHONY: run tunnel client help
+.PHONY: run tunnel client help venv db db-migrate db-makemigrations
 
 
 # Help system from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -9,6 +9,7 @@ help:
 
 venv: ## Create python venv
 	python3.8 -m venv venv
+	venv/bin/pip install pip-tools
 	venv/bin/pip install -r requirements.txt
 	
 db: ## Logs into psql
