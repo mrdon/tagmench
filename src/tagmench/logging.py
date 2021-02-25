@@ -22,7 +22,7 @@ def init_logging():
                 "level": log_level,
                 "class": "logging.StreamHandler",
                 "formatter": "default",
-                "stream": sys.stdout
+                "stream": sys.stdout,
             }
         },
         "loggers": {

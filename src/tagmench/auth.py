@@ -9,9 +9,9 @@ from wtforms.validators import DataRequired
 
 
 class LoginForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired()])
+    email = StringField("email", validators=[DataRequired()])
     password = PasswordField("password", validators=[DataRequired()])
-    guest = BooleanField('guest', default=False)
+    guest = BooleanField("guest", default=False)
 
 
 def user_required(func: Callable) -> Callable:

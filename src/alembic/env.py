@@ -63,12 +63,15 @@ def run_migrations_online():
 
     """
     cfg = config.get_section(config.config_ini_section)
-    url = os.getenv("DATABASE_URL", (
-        f"postgres://"
-        f'{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@'
-        f'{os.getenv("DB_HOST")}:5432/'
-        f'{os.getenv("DB_DATABASE")}'
-    ))
+    url = os.getenv(
+        "DATABASE_URL",
+        (
+            f"postgres://"
+            f'{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@'
+            f'{os.getenv("DB_HOST")}:5432/'
+            f'{os.getenv("DB_DATABASE")}'
+        ),
+    )
     p = urlparse(url)
     p = p._replace(scheme=p.scheme + "+pg8000")
     p = p._replace(query="")
@@ -79,9 +82,7 @@ def run_migrations_online():
     connectable = engine_from_config(cfg, prefix="sqlalchemy.", poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

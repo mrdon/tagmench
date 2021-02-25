@@ -2,7 +2,7 @@ import logging
 import os
 from typing import Any
 
-#import datadog
+# import datadog
 from hypercorn.config import SECONDS
 from hypercorn.logging import AccessLogAtoms, Logger
 
@@ -16,10 +16,10 @@ keep_alive_timeout = 60 * SECONDS
 
 workers = 1
 
-#datadog.initialize(
+# datadog.initialize(
 #    statsd_host=os.getenv("STATSD_HOST", "dd-agent"),
 #    statsd_port=os.getenv("STATSD_PORT", "8125"),
-#)
+# )
 
 
 class AccessLogger(logging.Logger):
@@ -48,21 +48,22 @@ class AccessLogger(logging.Logger):
             f'{data["method"]} {data["path"]} - {data["status"]}', extra=data
         )
 
- #       datadog.statsd.timing(
- #           "hypercorn.request",
- #           duration,
- #           tags=[
- #               f"method:{method}",
- #               f"status:{response['status']}",
- #               "service:tagmench",
- #           ],
- #       )
+    #       datadog.statsd.timing(
+    #           "hypercorn.request",
+    #           duration,
+    #           tags=[
+    #               f"method:{method}",
+    #               f"status:{response['status']}",
+    #               "service:tagmench",
+    #           ],
+    #       )
 
     def __getattr__(self, name: str) -> Any:
         if self.logger is None:
             return lambda *_: None
         else:
             return getattr(self.logger, name)
+
 
 accesslog = AccessLogger()
 errorlog = logging.getLogger("hypercorn.error")

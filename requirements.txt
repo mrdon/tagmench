@@ -8,6 +8,8 @@ aiofiles==0.6.0
     # via quart
 aiohttp==3.7.4
     # via twitchio
+appdirs==1.4.4
+    # via black
 apscheduler==3.7.0
     # via -r requirements.in
 async-timeout==3.0.1
@@ -24,6 +26,8 @@ attrs==20.3.0
     #   pytest
 backoff==1.10.0
     # via -r requirements.in
+black==20.8b1
+    # via -r requirements.in
 blessings==1.7
     # via -r requirements.in
 blinker==1.4
@@ -32,6 +36,7 @@ chardet==3.0.4
     # via aiohttp
 click==7.1.2
     # via
+    #   black
     #   flask
     #   nltk
     #   quart
@@ -82,10 +87,14 @@ multidict==5.1.0
     # via
     #   aiohttp
     #   yarl
+mypy-extensions==0.4.3
+    # via black
 nltk==3.5
     # via textblob
 packaging==20.9
     # via pytest
+pathspec==0.8.1
+    # via black
 pendulum==2.1.2
     # via -r requirements.in
 pluggy==0.13.1
@@ -119,7 +128,9 @@ quart==0.14.1
 redis==3.5.3
     # via -r requirements.in
 regex==2020.11.13
-    # via nltk
+    # via
+    #   black
+    #   nltk
 six==1.15.0
     # via
     #   apscheduler
@@ -131,6 +142,7 @@ textblob==0.15.3
     # via -r requirements.in
 toml==0.10.2
     # via
+    #   black
     #   hypercorn
     #   pytest
     #   quart
@@ -138,8 +150,12 @@ tqdm==4.58.0
     # via nltk
 twitchio==1.2.1
     # via -r requirements.in
+typed-ast==1.4.2
+    # via black
 typing-extensions==3.7.4.3
-    # via aiohttp
+    # via
+    #   aiohttp
+    #   black
 tzlocal==2.1
     # via apscheduler
 websockets==8.1

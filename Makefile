@@ -1,4 +1,4 @@
-.PHONY: run tunnel client help venv db db-migrate db-makemigrations
+.PHONY: run tunnel client help venv db db-migrate db-makemigrations format
 
 
 # Help system from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -14,6 +14,9 @@ venv: ## Create python venv
 	
 db: ## Logs into psql
 	docker-compose exec -e PGPASSWORD=postgres db psql -U postgres -h localhost -p 5432 postgres
+
+format: ## Format the code
+	venv/bin/black src
 
 db-makemigrations: ## Creates a migration
 	docker-compose run --no-deps web sh -c 'cd / && /alembic/venv/bin/alembic revision --autogenerate -m "replace me"'

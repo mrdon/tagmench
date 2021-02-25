@@ -15,4 +15,6 @@ async def add(username: str, tag: str):
 
 
 async def remove(username: str, tag: str):
-    await Tag.delete.where(and_(Tag.username==username, Tag.name==tag)).gino.status()
+    await Tag.delete.where(
+        and_(Tag.username == username, Tag.name == tag)
+    ).gino.status()

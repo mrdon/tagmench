@@ -12,6 +12,7 @@ from sqlalchemy.engine.url import URL
 # because 0.1.1 isn't out yet and the existing stable doesn't support the latest
 # Quart version
 
+
 class QuartModelMixin:
     @classmethod
     async def get_or_404(cls, *args, **kwargs):
