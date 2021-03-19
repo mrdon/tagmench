@@ -19,4 +19,5 @@ textblob
 twitchio
 black
 reorder-python-imports
+async-oauthlib
 

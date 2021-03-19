@@ -9,11 +9,15 @@ from typing import List
 from typing import Optional
 
 import quart.flask_patch
+from aiohttp.client import _RequestContextManager
+from async_oauthlib import OAuth2Session
+from oauthlib.oauth2 import OAuth2Token
 from quart import make_response
 from quart import Quart
 from quart import redirect
 from quart import render_template
 from quart import request
+from quart import session
 from quart import url_for
 from quart.exceptions import NotFound
 from quart.exceptions import Unauthorized
@@ -28,6 +32,9 @@ from tagmench import tags
 from tagmench.auth import LoginForm
 from tagmench.auth import user_required
 from tagmench.logging import init_logging
+from tagmench.settings import OAUTH_CLIENT_ID
+from tagmench.settings import OAUTH_CLIENT_SECRET
+from tagmench.settings import OAUTH_REDIRECT_URL
 
 init_logging()
 app = Quart(__name__)
@@ -135,20 +142,48 @@ async def login_post():
         log.info("Logging in as a guest")
         login_user(AuthUser("guest"))
         return redirect(url_for("index"))
+    else:
+        github = OAuth2Session(OAUTH_CLIENT_ID, redirect_uri=OAUTH_REDIRECT_URL)
+        authorization_url, state = github.authorization_url(
+            "https://id.twitch.tv/oauth2/authorize"
+        )
 
-    if form.validate_on_submit():
-        if form["password"].data == os.getenv("MAIN_PASSWORD", "happytogether"):
-            log.info("Logging in as a user")
-            login_user(AuthUser("1"))
-            return redirect(url_for("index"))
-
-    return redirect(url_for("login"))
+        # State is used to prevent CSRF, keep this for later.
+        session["oauth_state"] = state
+        return redirect(authorization_url)
 
 
 @app.route("/logout")
 async def logout():
     logout_user()
     return redirect(url_for("login"))
+
+
+@app.route("/oauth/redirect")
+async def oauth_redirect():
+    twitch = OAuth2Session(
+        OAUTH_CLIENT_ID, state=session["oauth_state"], redirect_uri=OAUTH_REDIRECT_URL
+    )
+    token: OAuth2Token = await twitch.fetch_token(
+        "https://id.twitch.tv/oauth2/token",
+        include_client_id=True,
+        client_secret=OAUTH_CLIENT_SECRET,
+        authorization_response=request.url.replace("http://", "https://"),
+    )
+    resp = await twitch.get(
+        "https://api.twitch.tv/helix/users",
+        headers={
+            "client-id": OAUTH_CLIENT_ID,
+            "authorization": f"Bearer " f"{token.get('access_token')}",
+        },
+    )
+    if resp.status == 200:
+        body = await resp.json()
+        user = body["data"][0]
+        username = user["login"]
+        log.info(f"Logging in as user {username}")
+        login_user(AuthUser(username))
+        return redirect(url_for("index"))
 
 
 @app.route("/", methods=["GET"])

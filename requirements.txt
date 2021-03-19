@@ -7,13 +7,17 @@
 aiofiles==0.6.0
     # via quart
 aiohttp==3.7.4
-    # via twitchio
+    # via
+    #   async-oauthlib
+    #   twitchio
 appdirs==1.4.4
     # via black
 apscheduler==3.7.0
     # via -r requirements.in
 aspy.refactor-imports==2.2.0
     # via reorder-python-imports
+async-oauthlib==0.0.9
+    # via -r requirements.in
 async-timeout==3.0.1
     # via
     #   aiohttp
@@ -36,8 +40,12 @@ blinker==1.4
     # via quart
 cached-property==1.5.2
     # via aspy.refactor-imports
+certifi==2020.12.5
+    # via requests
 chardet==3.0.4
-    # via aiohttp
+    # via
+    #   aiohttp
+    #   requests
 click==7.1.2
     # via
     #   black
@@ -64,8 +72,10 @@ hypercorn==0.11.2
     #   quart
 hyperframe==6.0.0
     # via h2
-idna==3.1
-    # via yarl
+idna==2.10
+    # via
+    #   requests
+    #   yarl
 inflect==5.2.0
     # via -r requirements.in
 iniconfig==1.1.1
@@ -95,6 +105,8 @@ mypy-extensions==0.4.3
     # via black
 nltk==3.5
     # via textblob
+oauthlib==3.1.0
+    # via async-oauthlib
 packaging==20.9
     # via pytest
 pathspec==0.8.1
@@ -137,6 +149,8 @@ regex==2020.11.13
     #   nltk
 reorder-python-imports==2.4.0
     # via -r requirements.in
+requests==2.25.1
+    # via async-oauthlib
 six==1.15.0
     # via
     #   apscheduler
@@ -164,6 +178,8 @@ typing-extensions==3.7.4.3
     #   black
 tzlocal==2.1
     # via apscheduler
+urllib3==1.26.4
+    # via requests
 websockets==8.1
     # via twitchio
 werkzeug==1.0.1

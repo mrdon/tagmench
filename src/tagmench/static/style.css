@@ -5,3 +5,8 @@ main {
 footer {
     margin-top: 1em;
 }
+
+.twitch-logo {
+    padding: .5em;
+    height: 50px;
+}

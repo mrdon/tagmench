@@ -60,4 +60,5 @@ build: ## Builds the app
 	docker-compose kill
 	DOCKER_BUILDKIT=1 docker build -t tagmench-dev .
 
-
+tunnel: ## Create tunnel
+	ssh -R 80:localhost:8080 ssh.localhost.run

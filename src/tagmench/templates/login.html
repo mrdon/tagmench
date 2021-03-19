@@ -15,16 +15,11 @@
         <form action="/login" method="post" id="login">
             {{ form.csrf_token }}
             <input type="hidden" id="guest" name="guest" value="" />
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" class="form-control" id="password">
-            </div>
             <div class="btn-group" role="group" aria-label="Actions">
-              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-primary"><img class="twitch-logo"
+                  src="/static/twitch.png" />Login
+                  with
+                  Twitch</button>
               <button type="submit" id="btn-guest" class="btn btn-link">Continue as guest</button>
             </div>
         </form>
