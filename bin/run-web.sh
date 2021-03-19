@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-hypercorn tagmench.web:app -c python:/app/hypercorn_config.py
+hypercorn tagmench.web:app -c file:/app/hypercorn_config.py
