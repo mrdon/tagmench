@@ -178,7 +178,7 @@ typing-extensions==3.7.4.3
     #   black
 tzlocal==2.1
     # via apscheduler
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 websockets==8.1
     # via twitchio
